@@ -1,5 +1,7 @@
-const http = require('node:http');
+const express = require('express');
 const fs = require('node:fs');
+
+const app = express();
 
 function countStudents(path, outStream) {
   fs.readFile(path, 'utf8', (err, data) => {
@@ -32,13 +34,13 @@ function countStudents(path, outStream) {
   });
 }
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    res.write('This is the list of our students\n');
-    countStudents(process.argv[2], res);
-  }
+app.get('/', (_, res) => {
+  res.end('Hello Holberton School!');
+});
+
+app.get('/students', (_, res) => {
+  res.write('This is the list of our students\n');
+  countStudents(process.argv[2], res);
 });
 
 app.listen(1245);
