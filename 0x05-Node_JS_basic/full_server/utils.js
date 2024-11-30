@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import { promises as fs } from 'fs';
 
 export default async function readDatabase(path) {
   const contents = await fs.readFile(path, 'utf8');
