@@ -5,7 +5,7 @@ export default class StudentsController {
     response.send('This is the list of our students\n');
     readDatabase('/database.csv')
       .then((studentFields) => {
-        console.log(studentFields);
+        console.log(`studentFields: ${studentFields}`);
         const orderedStudentFields = Object.keys(studentFields).sort((a, b) => {
           const x = a[0].toLowerCase();
           const y = b[0].toLowerCase();
@@ -27,12 +27,13 @@ export default class StudentsController {
   }
 
   static getAllStudentsByMajor(request, response) {
-    if (request.params.major !== 'CS' && request.params.major !== 'SWE') {
+    const { major } = request.params;
+    if (major !== 'CS' && major !== 'SWE') {
       response.status(500).end('Major parameter must be CS or SWE');
     }
     readDatabase('/database.csv')
       .then((studentFields) => {
-        response.end(`List: ${studentFields[request.params.major].join(', ')}`);
+        response.end(`List: ${studentFields[major].join(', ')}`);
       })
       .catch(() => response.status(500).end('Cannot load the database'));
   }

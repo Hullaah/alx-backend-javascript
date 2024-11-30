@@ -4,6 +4,8 @@ const fs = require('fs');
 const app = express();
 
 function countStudents(path, outStream) {
+  if (!path) throw new Error('Cannot load the database');
+
   fs.readFile(path, 'utf8', (err, data) => {
     if (err) {
       throw new Error('Cannot load the database');
