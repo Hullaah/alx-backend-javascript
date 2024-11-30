@@ -1,4 +1,3 @@
-import { dirname } from 'path';
 import readDatabase from '../utils';
 
 export default class StudentsController {
@@ -25,7 +24,7 @@ export default class StudentsController {
     if (major !== 'CS' && major !== 'SWE') {
       response.status(500).end('Major parameter must be CS or SWE');
     }
-    readDatabase(`${dirname(__dirname)}/database.csv`)
+    readDatabase(process.argv[2])
       .then((studentFields) => {
         response.end(`List: ${studentFields[major].join(', ')}`);
       })
